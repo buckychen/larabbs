@@ -17,32 +17,36 @@ $api->version('v1', [
         // 短信验证码
         $api->post('verificationCodes', 'VerificationCodesController@store')
             ->name('api.verificationCodes.store');
-
         //用户注册
         $api->post('users','UsersController@store')
             ->name('api.users.store');
-        //图片验证码
-        $api->post('captchas','CaptchasController@store')
-            ->name('api.captchas.store');
-        // 第三方登录
-        $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
-            ->name('api.socials.authorizations.store');
-        //登录
-        $api->post('authorizations','AuthorizationsController@store')
-            ->name('api.authorizations.store');
-        //刷新token
-        $api->put('authorizations/current','AuthorizationsController@update')
-            ->name('api.authorizations.update');
-        //删除token
-        $api->delete('authorizations/current','AuthorizationsController@destroy')
-            ->name('api.authorizations.destroy');
+
     });
 
-    $api->group([
-        'middleware' => 'api.throttle',
-        'limit' => 1,
-        'expires' => 1,
-    ],function($api){
+    //图片验证码
+    $api->post('captchas','CaptchasController@store')
+        ->name('api.captchas.store');
+    // 第三方登录
+    $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
+        ->name('api.socials.authorizations.store');
+    //登录
+    $api->post('authorizations','AuthorizationsController@store')
+        ->name('api.authorizations.store');
+    // 小程序登录
+    $api->post('weapp/authorizations', 'AuthorizationsController@weappStore')
+        ->name('api.weapp.authorizations.store');
+    //刷新token
+    $api->put('authorizations/current','AuthorizationsController@update')
+        ->name('api.authorizations.update');
+    //删除token
+    $api->delete('authorizations/current','AuthorizationsController@destroy')
+        ->name('api.authorizations.destroy');
+
+//    $api->group([
+//        'middleware' => 'api.throttle',
+//        'limit' => 1,
+//        'expires' => 1,
+//    ],function($api){
         //游客可以访问的接口
         $api->get('categories','CategoriesController@index')
             ->name('api.categories.index');
@@ -105,6 +109,6 @@ $api->version('v1', [
             $api->get('user/permissions','PermissionsController@index')
                 ->name('api.user.permissions.index');
         });
-    });
+//    });
 
 });
